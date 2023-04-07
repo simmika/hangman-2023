@@ -1,29 +1,20 @@
-import React from "react";
-import { Button, Form, Stack } from "react-bootstrap";
-import "./App.css";
-
-async function getWord() {
-  let response = await window.fetch(
-    `https://random-word-api.vercel.app/api?words=1`
-  );
-  let responseJson = await response.json();
-  // console.log(responseJson[0]);
-
-  return responseJson[0];
-}
+import React from 'react'
+import { Button, Form, Stack } from 'react-bootstrap'
+import './App.css'
+import { getWord } from './wordService'
 
 const Message = ({ guessSuccess, guessesCount, word, guessWord }) => {
-  const messageObj = { type: "", message: "" };
+  const messageObj = { type: '', message: '' }
   if (guessSuccess === null) {
-    messageObj.type = "primary";
-    messageObj.message = "Please enter your guess and submit";
+    messageObj.type = 'primary'
+    messageObj.message = 'Please enter your guess and submit'
   } else if (guessesCount === 6) {
-    messageObj.type = "danger";
-    messageObj.message = `The word was ${word.toUpperCase()}.`;
+    messageObj.type = 'danger'
+    messageObj.message = `The word was ${word.toUpperCase()}.`
     return (
       <div className={`alert alert-${messageObj.type}`} role="alert">
         <h4 className="alert-heading">
-          SORRY YOU LOST{" "}
+          SORRY YOU LOST{' '}
           <span role="img" aria-label="loose">
             👾
           </span>
@@ -35,46 +26,46 @@ const Message = ({ guessSuccess, guessesCount, word, guessWord }) => {
         <hr></hr>
         <p>
           <small>
-            If you want to try again, click the <strong>"PLAY AGAIN"</strong>{" "}
+            If you want to try again, click the <strong>"PLAY AGAIN"</strong>{' '}
             button below.
           </small>
         </p>
       </div>
-    );
+    )
   } else if (!guessSuccess && guessesCount < 6) {
-    messageObj.type = "danger";
-    messageObj.message = "Your guess is incorrect.";
-  } else if (!guessWord.includes("_")) {
-    messageObj.type = "success";
-    messageObj.message = `You won the game! The correct word is ${word.toUpperCase()}`;
+    messageObj.type = 'danger'
+    messageObj.message = 'Your guess is incorrect.'
+  } else if (!guessWord.includes('_')) {
+    messageObj.type = 'success'
+    messageObj.message = `You won the game! The correct word is ${word.toUpperCase()}`
     return (
       <div className={`alert alert-${messageObj.type}`} role="alert">
         <h4 className="alert-heading">
-          CONGRATULATIONS!{" "}
+          CONGRATULATIONS!{' '}
           <span role="img" aria-label="win">
             🏆
-          </span>{" "}
+          </span>{' '}
         </h4>
         <p>{messageObj.message}</p>
         <hr></hr>
         <p>
           <small>
-            If you want to play again, click the <strong>"PLAY AGAIN"</strong>{" "}
+            If you want to play again, click the <strong>"PLAY AGAIN"</strong>{' '}
             button below.
           </small>
         </p>
       </div>
-    );
+    )
   } else if (guessSuccess) {
-    messageObj.type = "success";
-    messageObj.message = "Your guess is correct";
+    messageObj.type = 'success'
+    messageObj.message = 'Your guess is correct'
   }
   return (
     <div className={`alert alert-${messageObj.type}`} role="alert">
       {messageObj.message}
     </div>
-  );
-};
+  )
+}
 
 const Img = ({ guessesCount }) => (
   <img
@@ -84,7 +75,7 @@ const Img = ({ guessesCount }) => (
     width="200"
     height="400"
   />
-);
+)
 
 const DisplayPlayingApp = ({
   handleLetterSubmit,
@@ -93,10 +84,10 @@ const DisplayPlayingApp = ({
   guessSuccess,
   guessWord,
   guessesCount,
-  word
+  word,
 }) => {
   return (
-    <div className="App">
+    <div className="App" data-testid="App">
       <Form /* onSubmit={handleLetterSubmit}*/>
         <Stack direction="horizontal" gap={3} className="col-md-8 mx-auto">
           <Form.Control
@@ -106,7 +97,7 @@ const DisplayPlayingApp = ({
             size="lg"
             maxLength="1"
             value={guessLetter}
-            disabled={!guessWord?.includes("_") || guessesCount === 6}
+            disabled={!guessWord?.includes('_') || guessesCount === 6}
           />
           <Button
             onClick={handleLetterSubmit}
@@ -119,7 +110,7 @@ const DisplayPlayingApp = ({
           </Button>
         </Stack>
       </Form>
-      <Stack className="col-md-8 mx-auto" style={{ marginTop: "1rem" }}>
+      <Stack className="col-md-8 mx-auto" style={{ marginTop: '1rem' }}>
         <Stack>
           <Message
             guessSuccess={guessSuccess}
@@ -130,62 +121,65 @@ const DisplayPlayingApp = ({
         </Stack>
       </Stack>
       <Stack>
-        <h2>{guessWord?.split("").map((x) => x + " ")}</h2>
+        <h2>{guessWord?.split('').map(x => x + ' ')}</h2>
       </Stack>
       <Stack>
         <Img guessesCount={guessesCount} />
       </Stack>
       <Stack className="col-lg-8 mx-auto">
         <Button variant="danger" onClick={() => window.location.reload(false)}>
-          {!guessWord?.includes("_") || guessesCount === 6
-            ? "PLAY AGAIN"
-            : "RESET"}
+          {!guessWord?.includes('_') || guessesCount === 6
+            ? 'PLAY AGAIN'
+            : 'RESET'}
         </Button>
       </Stack>
     </div>
-  );
-};
+  )
+}
 
 export default function App() {
-  const [word, setWord] = React.useState(); // nebutinas ???? pasichekinti
-  const [guessLetter, setGuessLetter] = React.useState("");
+  const [word, setWord] = React.useState() // nebutinas ???? pasichekinti
+  const [guessLetter, setGuessLetter] = React.useState('')
   // reikia array'aus spėjimams
-  const [guessWord, setGuessWord] = React.useState(); //atsikratyti :D
-  const [guessesCount, setGuessesCount] = React.useState(0); // išskaičiuoti be state'o
-  const [guessSuccess, setGuessSuccess] = React.useState(null); // išskaičiuoti kitoj vietoj :)
+  const [guessWord, setGuessWord] = React.useState() //atsikratyti :D
+  const [guessesCount, setGuessesCount] = React.useState(0) // išskaičiuoti be state'o
+  const [guessSuccess, setGuessSuccess] = React.useState(null) // išskaičiuoti kitoj vietoj :)
 
   React.useEffect(() => {
-    getWord().then((result) => {
-      setWord(result);
-      setGuessWord("_".repeat(result.length));
-    });
-  }, []); // Užsetint žodį reikia tikpačioj pradžioj vieną kartą,
+    getWord().then(result => {
+      setWord(result)
+      setGuessWord('_'.repeat(result.length))
+      console.log('setWord ', result)
+    })
+  }, []) // Užsetint žodį reikia tikpačioj pradžioj vieną kartą,
 
-  const handleLetterChange = (event) => {
+  const handleLetterChange = event => {
     setGuessLetter(
-      event.target.value.toLowerCase().replaceAll(/[^a-zA-Z]+/g, "")
-    );
-  };
+      event.target.value.toLowerCase().replaceAll(/[^a-zA-Z]+/g, ''),
+    )
+  }
 
-  const handleLetterSubmit = (e) => {
+  const handleLetterSubmit = e => {
     // e.preventDefault();
     if (word.includes(guessLetter)) {
       const gameWord = word
-        .split("")
-        .map((letter) => (letter !== guessLetter ? "_" : letter));
+        .split('')
+        .map(letter => (letter !== guessLetter ? '_' : letter))
       setGuessWord(
         gameWord
-          .map((x, i) => (guessWord[i] === "_" ? x : guessWord[i]))
-          .join("")
-      );
-      setGuessSuccess(true);
+          .map((x, i) => (guessWord[i] === '_' ? x : guessWord[i]))
+          .join(''),
+      )
+      setGuessSuccess(true)
     } else {
-      setGuessSuccess(false);
-      setGuessesCount((c) => c + 1);
+      setGuessSuccess(false)
+      setGuessesCount(c => c + 1)
     }
-    setGuessLetter("");
-  };
-
+    setGuessLetter('')
+  }
+  if (!word) {
+    return null
+  }
   return (
     <DisplayPlayingApp
       handleLetterSubmit={handleLetterSubmit}
@@ -196,7 +190,7 @@ export default function App() {
       guessesCount={guessesCount} // gal galima atsikratyti
       word={word}
     />
-  );
+  )
 }
 
 /*
