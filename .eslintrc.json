@@ -1,0 +1,26 @@
+{
+  "plugins": ["prettier"],
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      2,
+      {
+        "arrowParens": "avoid",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "jsxSingleQuote": false,
+        "printWidth": 80,
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 2,
+        "trailingComma": "all",
+        "useTabs": false
+      }
+    ]
+  }
+}
