@@ -34,7 +34,7 @@ const Message = ({ guessSuccess, guessesCount, word, guessWord }) => {
     )
   } else if (!guessSuccess && guessesCount < 6) {
     messageObj.type = 'danger'
-    messageObj.message = 'Your guess is incorrect.'
+    messageObj.message = 'Your guess is incorrect'
   } else if (!guessWord.includes('_')) {
     messageObj.type = 'success'
     messageObj.message = `You won the game! The correct word is ${word.toUpperCase()}`
@@ -69,8 +69,8 @@ const Message = ({ guessSuccess, guessesCount, word, guessWord }) => {
 
 const Img = ({ guessesCount }) => (
   <img
-    className=" mx-auto"
-    alt=""
+    className="mx-auto"
+    alt="state"
     src={`./img/hangman${guessesCount + 1}.png`}
     width="200"
     height="400"
@@ -88,7 +88,7 @@ const DisplayPlayingApp = ({
 }) => {
   return (
     <div className="App" data-testid="App">
-      <Form /* onSubmit={handleLetterSubmit}*/>
+      <Form data-testid="form" /* onSubmit={handleLetterSubmit}*/>
         <Stack direction="horizontal" gap={3} className="col-md-8 mx-auto">
           <Form.Control
             onChange={handleLetterChange}
@@ -160,7 +160,7 @@ export default function App() {
   }
 
   const handleLetterSubmit = e => {
-    // e.preventDefault();
+    e.preventDefault()
     if (word.includes(guessLetter)) {
       const gameWord = word
         .split('')

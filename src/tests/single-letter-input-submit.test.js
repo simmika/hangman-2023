@@ -1,0 +1,92 @@
+import { screen, fireEvent, act } from '@testing-library/react'
+import { setupTest } from './setupTest'
+import userEvent from '@testing-library/user-event'
+
+const mockWordToGuess = 'hello'
+
+describe('Correct letter submit', () => {
+  it.each([
+    ['e', '_ e _ _ _'],
+    ['l', '_ _ l l _'],
+    ['h', 'h _ _ _ _'],
+  ])(
+    'reveals letter %p in the correct position with success message - %p',
+    async (letter, result) => {
+      await setupTest(mockWordToGuess)
+
+      let input = screen.getByPlaceholderText('Your guess')
+      let button = screen.getByText('Submit')
+
+      fireEvent.change(input, { target: { value: letter } })
+      expect(input.value).toEqual(letter)
+      expect(button).toBeEnabled()
+
+      fireEvent.click(button)
+      expect(screen.getByText(result)).toBeDefined()
+      expect(screen.getByText('Your guess is correct')).toBeDefined()
+      expect(screen.getByAltText('state').src).toContain('hangman1')
+    },
+  )
+})
+
+describe('Incorrect letter submit', () => {
+  it.each([
+    ['a', '_ _ _ _ _'],
+    ['r', '_ _ _ _ _'],
+  ])(
+    'doesn\t reveal %p letter and shows incorrect guess message',
+    async (letter, result) => {
+      await setupTest(mockWordToGuess)
+
+      let input = screen.getByPlaceholderText('Your guess')
+      let button = screen.getByText('Submit')
+
+      fireEvent.change(input, { target: { value: letter } })
+      expect(input.value).toEqual(letter)
+      expect(button).toBeEnabled()
+
+      fireEvent.click(button)
+      expect(screen.getByText(result)).toBeDefined()
+      expect(screen.getByText('Your guess is incorrect')).toBeDefined()
+      expect(screen.getByAltText('state').src).toContain('hangman2')
+    },
+  )
+})
+
+describe('Non-letter or upper-case inputs are validated', () => {
+  it.each([
+    ['2', ''],
+    ['R', 'r'],
+    ['tr', 't'],
+  ])('%p changed to %p', async (letter, result) => {
+    await setupTest(mockWordToGuess)
+
+    let input = screen.getByPlaceholderText('Your guess')
+
+    act(() => {
+      userEvent.type(input, letter)
+    })
+
+    expect(input.value).toEqual(result)
+  })
+})
+
+describe('Add and remove letter', () => {
+  test('should revent to initial state - submit disabled', async () => {
+    await setupTest(mockWordToGuess)
+
+    let letter = 'a'
+    let empty = ''
+
+    let input = screen.getByPlaceholderText('Your guess')
+    let button = screen.getByText('Submit')
+
+    fireEvent.change(input, { target: { value: letter } })
+    expect(input.value).toEqual(letter)
+    expect(button).toBeEnabled(letter)
+
+    fireEvent.change(input, { target: { value: empty } })
+    expect(input.value).toEqual(empty)
+    expect(button).toBeDisabled()
+  })
+})
