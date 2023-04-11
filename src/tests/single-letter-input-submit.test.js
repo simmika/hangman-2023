@@ -30,12 +30,9 @@ describe('Correct letter submit', () => {
 })
 
 describe('Incorrect letter submit', () => {
-  it.each([
-    ['a', '_ _ _ _ _'],
-    ['r', '_ _ _ _ _'],
-  ])(
+  it.each(['a', 'r', 't'])(
     'doesn\t reveal %p letter and shows incorrect guess message',
-    async (letter, result) => {
+    async letter => {
       await setupTest(mockWordToGuess)
 
       let input = screen.getByPlaceholderText('Your guess')
@@ -46,7 +43,9 @@ describe('Incorrect letter submit', () => {
       expect(button).toBeEnabled()
 
       fireEvent.click(button)
-      expect(screen.getByText(result)).toBeDefined()
+      expect(
+        screen.getByText('_ '.repeat(mockWordToGuess.length).trim()),
+      ).toBeDefined()
       expect(screen.getByText('Your guess is incorrect')).toBeDefined()
       expect(screen.getByAltText('state').src).toContain('hangman2')
     },
@@ -83,7 +82,7 @@ describe('Add and remove letter', () => {
 
     fireEvent.change(input, { target: { value: letter } })
     expect(input.value).toEqual(letter)
-    expect(button).toBeEnabled(letter)
+    expect(button).toBeEnabled()
 
     fireEvent.change(input, { target: { value: empty } })
     expect(input.value).toEqual(empty)

@@ -88,7 +88,7 @@ const DisplayPlayingApp = ({
 }) => {
   return (
     <div className="App" data-testid="App">
-      <Form data-testid="form" /* onSubmit={handleLetterSubmit}*/>
+      <Form /* onSubmit={handleLetterSubmit}*/>
         <Stack direction="horizontal" gap={3} className="col-md-8 mx-auto">
           <Form.Control
             onChange={handleLetterChange}
@@ -149,7 +149,7 @@ export default function App() {
     getWord().then(result => {
       setWord(result)
       setGuessWord('_'.repeat(result.length))
-      console.log('setWord ', result)
+      // console.log('setWord ', result)
     })
   }, []) // Užsetint žodį reikia tikpačioj pradžioj vieną kartą,
 
