@@ -34,7 +34,7 @@ const Message = ({ guessSuccess, guessesCount, word, guessWord }) => {
     )
   } else if (!guessSuccess && guessesCount < 6) {
     messageObj.type = 'danger'
-    messageObj.message = 'Your guess is incorrect.'
+    messageObj.message = 'Your guess is incorrect'
   } else if (!guessWord.includes('_')) {
     messageObj.type = 'success'
     messageObj.message = `You won the game! The correct word is ${word.toUpperCase()}`
@@ -69,8 +69,8 @@ const Message = ({ guessSuccess, guessesCount, word, guessWord }) => {
 
 const Img = ({ guessesCount }) => (
   <img
-    className=" mx-auto"
-    alt=""
+    className="mx-auto"
+    alt="state"
     src={`./img/hangman${guessesCount + 1}.png`}
     width="200"
     height="400"
@@ -149,7 +149,7 @@ export default function App() {
     getWord().then(result => {
       setWord(result)
       setGuessWord('_'.repeat(result.length))
-      console.log('setWord ', result)
+      // console.log('setWord ', result)
     })
   }, []) // Užsetint žodį reikia tikpačioj pradžioj vieną kartą,
 
@@ -160,7 +160,7 @@ export default function App() {
   }
 
   const handleLetterSubmit = e => {
-    // e.preventDefault();
+    e.preventDefault()
     if (word.includes(guessLetter)) {
       const gameWord = word
         .split('')

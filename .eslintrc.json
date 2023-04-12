@@ -8,6 +8,7 @@
   ],
   "rules": {
     "testing-library/no-render-in-setup": 0,
+    "testing-library/no-unnecessary-act": 0,
     "prettier/prettier": [
       2,
       {
