@@ -15,7 +15,7 @@ describe('Initial state', () => {
     expect(message).toBeDefined()
   })
   test('shows underscores for every letter', () => {
-    const hiddenWord = screen.getByText('_ _ _ _ _')
+    const hiddenWord = screen.getByText('_ _ _ _')
     expect(hiddenWord).toBeDefined()
   })
 })
