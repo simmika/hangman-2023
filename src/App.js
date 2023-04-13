@@ -127,7 +127,11 @@ const DisplayPlayingApp = ({
         <Img guessesCount={guessesCount} />
       </Stack>
       <Stack className="col-lg-8 mx-auto">
-        <Button variant="danger" onClick={() => window.location.reload(false)}>
+        <Button
+          variant="danger"
+          onClick={() => window.location.reload(false)}
+          data-testid="reset-playAgain-button"
+        >
           {!guessWord?.includes('_') || guessesCount === 6
             ? 'PLAY AGAIN'
             : 'RESET'}
