@@ -7,20 +7,20 @@ describe('State of the won game', () => {
   test('reveals the word with congratulation message and disables submit and input elements', async () => {
     await setupTest(mockWordToGuess)
 
-    let letter = 'a'
-    let input = screen.getByPlaceholderText('Your guess')
-    let submitButton = screen.getByText('Submit')
-    let playAgainButton = screen.getByTestId('reset-playAgain-button')
+    const letter = 'a'
+    const input = screen.getByPlaceholderText('Your guess')
+    const submitButton = screen.getByText('Submit')
+    const playAgainButton = screen.getByTestId('reset-playAgain-button')
 
     fireEvent.change(input, { target: { value: letter } })
     fireEvent.click(submitButton)
 
-    let message = screen.getByRole('alert').textContent
+    const message = screen.getByRole('alert').textContent
 
     expect(message).toContain('The correct word is A')
     expect(input).toBeDisabled()
     expect(submitButton).toBeDisabled()
-    // expect(screen.getByText('_')).not.toBeInTheDocument()
+    expect(screen.queryByText('_')).toBeNull()
 
     expect(playAgainButton).toBeEnabled()
     expect(playAgainButton).toHaveTextContent('PLAY AGAIN')

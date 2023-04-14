@@ -8,10 +8,10 @@ describe('Reset button', () => {
   test('reloads the app and resets the initial state', async () => {
     await setupTest(mockWordToGuess)
 
-    let letter = 'e'
-    let input = screen.getByPlaceholderText('Your guess')
-    let submitButton = screen.getByText('Submit')
-    let resetButton = screen.getByTestId('reset-playAgain-button')
+    const letter = 'e'
+    const input = screen.getByPlaceholderText('Your guess')
+    const submitButton = screen.getByText('Submit')
+    const resetButton = screen.getByTestId('reset-playAgain-button')
 
     fireEvent.change(input, { target: { value: letter } })
     fireEvent.click(submitButton)
