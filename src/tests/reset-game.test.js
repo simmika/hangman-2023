@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent, act } from '@testing-library/react'
 import { setupTest } from './setupTest'
 import 'jest-location-mock'
 
@@ -13,12 +13,18 @@ describe('Reset button', () => {
     const submitButton = screen.getByText('Submit')
     const resetButton = screen.getByTestId('reset-playAgain-button')
 
-    fireEvent.change(input, { target: { value: letter } })
-    fireEvent.click(submitButton)
+    act(() => {
+      fireEvent.change(input, { target: { value: letter } })
+      fireEvent.click(submitButton)
+    })
+
     expect(screen.getByText('Your guess is correct')).toBeDefined()
     expect(screen.getByText('_ e _ _ _')).toBeDefined()
 
-    fireEvent.click(resetButton)
-    expect(window.location.reload).toHaveBeenCalled()
+    act(() => {
+      fireEvent.click(resetButton)
+    })
+
+    await screen.findByText('Please enter your guess and submit')
   })
 })

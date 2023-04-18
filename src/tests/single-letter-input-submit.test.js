@@ -14,8 +14,8 @@ describe('Correct letter submit', () => {
     async (letter, result) => {
       await setupTest(mockWordToGuess)
 
-      let input = screen.getByPlaceholderText('Your guess')
-      let button = screen.getByText('Submit')
+      const input = screen.getByPlaceholderText('Your guess')
+      const button = screen.getByText('Submit')
 
       fireEvent.change(input, { target: { value: letter } })
       expect(input.value).toEqual(letter)
@@ -35,17 +35,15 @@ describe('Incorrect letter submit', () => {
     async letter => {
       await setupTest(mockWordToGuess)
 
-      let input = screen.getByPlaceholderText('Your guess')
-      let button = screen.getByText('Submit')
+      const input = screen.getByPlaceholderText('Your guess')
+      const button = screen.getByText('Submit')
 
       fireEvent.change(input, { target: { value: letter } })
       expect(input.value).toEqual(letter)
       expect(button).toBeEnabled()
 
       fireEvent.click(button)
-      expect(
-        screen.getByText('_ '.repeat(mockWordToGuess.length).trim()),
-      ).toBeDefined()
+      expect(screen.getByText('_ _ _ _ _')).toBeDefined()
       expect(screen.getByText('Your guess is incorrect')).toBeDefined()
       expect(screen.getByAltText('state').src).toContain('hangman2')
     },
@@ -60,7 +58,7 @@ describe('Non-letter or upper-case inputs are validated', () => {
   ])('%p changed to %p', async (letter, result) => {
     await setupTest(mockWordToGuess)
 
-    let input = screen.getByPlaceholderText('Your guess')
+    const input = screen.getByPlaceholderText('Your guess')
 
     act(() => {
       userEvent.type(input, letter)
@@ -74,11 +72,11 @@ describe('Add and remove letter', () => {
   test('should revent to initial state - submit disabled', async () => {
     await setupTest(mockWordToGuess)
 
-    let letter = 'a'
-    let empty = ''
+    const letter = 'a'
+    const empty = ''
 
-    let input = screen.getByPlaceholderText('Your guess')
-    let button = screen.getByText('Submit')
+    const input = screen.getByPlaceholderText('Your guess')
+    const button = screen.getByText('Submit')
 
     fireEvent.change(input, { target: { value: letter } })
     expect(input.value).toEqual(letter)
