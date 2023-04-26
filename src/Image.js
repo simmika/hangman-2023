@@ -1,6 +1,8 @@
-import { incorrectGuessesCount } from './validationService'
+import { incorrectGuessesCount } from './businessLogic'
 
-const Img = ({ word, submittedLetters }) => (
+// prapasinti jau išskaičiuotą guessees Counta
+
+export const Img = ({ word, submittedLetters }) => (
   <img
     className="mx-auto"
     alt="state"
@@ -11,5 +13,3 @@ const Img = ({ word, submittedLetters }) => (
     height="400"
   />
 )
-
-export default Img
