@@ -1,16 +1,26 @@
+import React from 'react'
 import { Button, Form, Stack } from 'react-bootstrap'
-import { incorrectGuessesCount, isSolved } from './validationService'
-import Message from './Message'
-import Img from './Image'
+import { incorrectGuessesCount, isSolved } from './businessLogic'
+import { Message } from './Message'
+import { Img } from './Image'
 
-const DisplayPlayingApp = ({
-  handleLetterSubmit,
-  handleLetterChange,
-  handleReset,
-  word,
-  submittedLetters,
-  unsubmittedLetter,
-}) => {
+export const AppRoot = ({ handleReset, word }) => {
+  const [unsubmittedLetter, setUnsubmittedLetter] = React.useState('')
+  const [submittedLetters, setSubmittedLetters] = React.useState([])
+
+  const handleLetterChange = event => {
+    setUnsubmittedLetter(
+      event.target.value.toLowerCase().replaceAll(/[^a-zA-Z]+/g, ''),
+    )
+  }
+
+  const handleLetterSubmit = e => {
+    e.preventDefault()
+    submittedLetters.push(unsubmittedLetter)
+    setSubmittedLetters(submittedLetters)
+    setUnsubmittedLetter('')
+  }
+
   return (
     <div className="App" data-testid="App">
       <Form /* onSubmit={handleLetterSubmit}*/>
@@ -71,5 +81,3 @@ const DisplayPlayingApp = ({
     </div>
   )
 }
-
-export default DisplayPlayingApp

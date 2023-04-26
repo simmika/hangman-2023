@@ -2,7 +2,7 @@ import {
   isSolved,
   incorrectGuessesCount,
   isLastGuessCorrect,
-} from './validationService'
+} from './businessLogic'
 
 const GenericMessage = ({ type, message }) => {
   return (
@@ -35,6 +35,7 @@ const YouLostMessage = ({ message }) => {
   )
 }
 
+//stilistika passinti komponento viduje
 const YouWonMessage = ({ message }) => {
   return (
     <div className={`alert alert-success`} role="alert">
@@ -56,7 +57,7 @@ const YouWonMessage = ({ message }) => {
   )
 }
 
-const Message = ({ word, submittedLetters }) => {
+export const Message = ({ word, submittedLetters }) => {
   if (submittedLetters.length === 0) {
     return (
       <GenericMessage
@@ -89,5 +90,3 @@ const Message = ({ word, submittedLetters }) => {
 
   return
 }
-
-export default Message
