@@ -62,7 +62,9 @@ export const AppRoot = ({ handleReset, word }) => {
         </h2>
       </Stack>
       <Stack>
-        <Img word={word} submittedLetters={submittedLetters} />
+        <Img
+          incorrectCount={incorrectGuessesCount(word, submittedLetters) + 1}
+        />
       </Stack>
       <Stack className="col-lg-8 mx-auto">
         <Button

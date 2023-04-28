@@ -1,14 +1,8 @@
-import { incorrectGuessesCount } from './businessLogic'
-
-// prapasinti jau išskaičiuotą guessees Counta
-
-export const Img = ({ word, submittedLetters }) => (
+export const Img = ({ incorrectCount }) => (
   <img
     className="mx-auto"
     alt="state"
-    src={`./img/hangman${
-      incorrectGuessesCount(word, submittedLetters) + 1
-    }.png`}
+    src={`./img/hangman${incorrectCount}.png`}
     width="200"
     height="400"
   />

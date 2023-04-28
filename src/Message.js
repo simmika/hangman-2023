@@ -12,7 +12,7 @@ const GenericMessage = ({ type, message }) => {
   )
 }
 
-const YouLostMessage = ({ message }) => {
+const YouLostMessage = ({ word }) => {
   return (
     <div className={`alert alert-danger`} role="alert">
       <h4 className="alert-heading">
@@ -22,9 +22,8 @@ const YouLostMessage = ({ message }) => {
         </span>
       </h4>
       <p>
-        The word was <strong>{message}</strong>. Better luck next time!
+        The word was <strong>{word}</strong>. Better luck next time!
       </p>
-      <hr></hr>
       <p>
         <small>
           If you want to try again, click the <strong>"PLAY AGAIN"</strong>{' '}
@@ -35,8 +34,7 @@ const YouLostMessage = ({ message }) => {
   )
 }
 
-//stilistika passinti komponento viduje
-const YouWonMessage = ({ message }) => {
+const YouWonMessage = ({ word }) => {
   return (
     <div className={`alert alert-success`} role="alert">
       <h4 className="alert-heading">
@@ -45,8 +43,9 @@ const YouWonMessage = ({ message }) => {
           🏆
         </span>{' '}
       </h4>
-      <p>{message}</p>
-      <hr></hr>
+      <p>
+        You won the game! The correct word is <strong>{word}</strong>
+      </p>
       <p>
         <small>
           If you want to play again, click the <strong>"PLAY AGAIN"</strong>{' '}
@@ -58,6 +57,8 @@ const YouWonMessage = ({ message }) => {
 }
 
 export const Message = ({ word, submittedLetters }) => {
+  const incorrectGuessCount = incorrectGuessesCount(word, submittedLetters)
+
   if (submittedLetters.length === 0) {
     return (
       <GenericMessage
@@ -66,23 +67,16 @@ export const Message = ({ word, submittedLetters }) => {
       />
     )
   }
-  if (incorrectGuessesCount(word, submittedLetters) === 6) {
-    return <YouLostMessage message={`${word.toUpperCase()}`} />
+  if (incorrectGuessCount === 6) {
+    return <YouLostMessage word={`${word.toUpperCase()}`} />
   }
-  if (
-    !isLastGuessCorrect(word, submittedLetters) &&
-    incorrectGuessesCount(word, submittedLetters) < 6
-  ) {
+  if (!isLastGuessCorrect(word, submittedLetters) && incorrectGuessCount < 6) {
     return (
       <GenericMessage type={'danger'} message={'Your guess is incorrect'} />
     )
   }
   if (isSolved(word, submittedLetters)) {
-    return (
-      <YouWonMessage
-        message={`You won the game! The correct word is ${word.toUpperCase()}`}
-      />
-    )
+    return <YouWonMessage word={`${word.toUpperCase()}`} />
   }
   if (isLastGuessCorrect(word, submittedLetters)) {
     return <GenericMessage type="success" message="Your guess is correct" />
